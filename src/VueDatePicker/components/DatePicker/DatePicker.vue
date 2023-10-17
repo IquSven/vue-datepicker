@@ -174,13 +174,16 @@
      */
     const mappedDates = computed(() => (instance: number) => {
         return getCalendarDays(month.value(instance), year.value(instance)).map((date) => {
-            return Object.assign(date, {
-                days: date.days.map((calendarDay) => {
-                    calendarDay.marker = getMarker(calendarDay);
-                    calendarDay.classData = getDayClassData(calendarDay);
-                    return calendarDay;
-                }),
-            });
+            return Object.assign(
+                {
+                    days: date.days.map((calendarDay) => {
+                        calendarDay.marker = getMarker(calendarDay);
+                        calendarDay.classData = getDayClassData(calendarDay);
+                        return calendarDay;
+                    }),
+                },
+                date,
+            );
         });
     });
 

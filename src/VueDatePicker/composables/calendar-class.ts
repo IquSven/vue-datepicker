@@ -18,7 +18,7 @@ import type { ICalendarDay, InternalModuleValue } from '@/interfaces';
 import type { PickerBasePropsType } from '@/props';
 
 export const useCalendarClass = (modelValue: WritableComputedRef<InternalModuleValue>, props: PickerBasePropsType) => {
-    const { defaultedMultiCalendars } = useDefaults(props);
+    const { defaultedMultiCalendars, defaultedHighlight } = useDefaults(props);
     const { isDisabled, matchDate } = useValidation(props);
     // Track hovered date
     const hoveredDate = ref<Date | null>(null);
@@ -60,7 +60,7 @@ export const useCalendarClass = (modelValue: WritableComputedRef<InternalModuleV
 
     const checkDateBefore = (isStart: boolean) => {
         const dateToCompare = Array.isArray(modelValue.value) ? modelValue.value[0] : null;
-        return isStart ? !isDateBefore(hoveredDate.value ? hoveredDate.value: null, dateToCompare) : true;
+        return isStart ? !isDateBefore(hoveredDate.value == null ? null : hoveredDate.value, dateToCompare) : true;
     };
 
     /**
@@ -198,21 +198,33 @@ export const useCalendarClass = (modelValue: WritableComputedRef<InternalModuleV
 
     // Check if the date should be highlighted
     const highlighted = (day: ICalendarDay) => {
-        if (props.highlight) {
+        if (defaultedHighlight.value) {
+            if (typeof defaultedHighlight.value === 'function') return defaultedHighlight.value(day.value);
             return matchDate(
                 day.value,
-                props.arrMapValues?.highlightedDates ? props.arrMapValues.highlightedDates : props.highlight,
+                props.arrMapValues?.highlightedDates
+                    ? props.arrMapValues.highlightedDates
+                    : defaultedHighlight.value.dates,
             );
         }
         return false;
     };
 
     // If enabled, checks the days that are also highlighted to not be marked as disabled
-    const disableHighlight = (day: ICalendarDay) => isDisabled(day.value) && props.highlightDisabledDays === false;
+    const disableHighlight = (day: ICalendarDay) => {
+        const disabled = isDisabled(day.value);
+        return (
+            disabled &&
+            (typeof defaultedHighlight.value === 'function'
+                ? !defaultedHighlight.value(day.value, disabled)
+                : !defaultedHighlight.value.options.highlightDisabled)
+        );
+    };
 
     // Check if the given week day should be highlighted
     const highlightedWeekDay = (day: ICalendarDay) => {
-        return props.highlightWeekDays?.includes(day.value.getDay());
+        if (typeof defaultedHighlight.value === 'function') return defaultedHighlight.value(day.value);
+        return defaultedHighlight.value.weekdays?.includes(day.value.getDay());
     };
 
     const isBetween = (day: ICalendarDay) => {
@@ -257,7 +269,7 @@ export const useCalendarClass = (modelValue: WritableComputedRef<InternalModuleV
 
     // Get set of classes for the week picker
     const weekPickerClasses = (day: ICalendarDay): Record<string, boolean> => {
-        return Object.assign(rangeDateClasses(day), autoRangeClasses(day),{
+        return Object.assign({}, rangeDateClasses(day), autoRangeClasses(day), {
             dp__range_between_week: isBetween(day) && props.weekPicker,
         });
     };
@@ -289,7 +301,7 @@ export const useCalendarClass = (modelValue: WritableComputedRef<InternalModuleV
 
     // Get set of classes for auto range
     const autoRangeClasses = (day: ICalendarDay): Record<string, boolean> => {
-        return Object.assign(rangeDateClasses(day),{
+        return Object.assign({}, rangeDateClasses(day), {
             dp__cell_auto_range: isAutoRangeInBetween(day),
             dp__cell_auto_range_start: isAutoRangeStart(day),
             dp__cell_auto_range_end: isHoverRangeEnd(day),
@@ -300,7 +312,7 @@ export const useCalendarClass = (modelValue: WritableComputedRef<InternalModuleV
     const getModeClasses = (day: ICalendarDay) => {
         if (props.range) {
             if (props.autoRange) return autoRangeClasses(day);
-            if (props.modelAuto) return Object.assign(singleDateClasses(day),rangeDateClasses(day));
+            if (props.modelAuto) return Object.assign({}, singleDateClasses(day), rangeDateClasses(day));
             return rangeDateClasses(day);
         }
         if (props.weekPicker) {
@@ -313,7 +325,7 @@ export const useCalendarClass = (modelValue: WritableComputedRef<InternalModuleV
     // Get needed classes
     const getDayClassData = (day: ICalendarDay): Record<string, boolean> => {
         if (props.hideOffsetDates && !day.current) return {};
-        return Object.assign(sharedClasses(day),getModeClasses(day),{
+        return Object.assign({}, sharedClasses(day), getModeClasses(day), {
             [props.dayClass ? props.dayClass(day.value) : '']: true,
             [props.calendarCellClassName]: !!props.calendarCellClassName,
         });

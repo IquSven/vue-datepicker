@@ -278,7 +278,7 @@ export const assignDefaultTime = (
         minutes: getMinutes(getDate()),
         seconds: enableSeconds ? getSeconds(getDate()) : 0,
     };
-    return Object.assign(defaultTime, obj);
+    return Object.assign({}, defaultTime, obj);
 };
 
 export const getDateForCompare = (date: Date | string, month: number, year: number): [Date, Date] => {

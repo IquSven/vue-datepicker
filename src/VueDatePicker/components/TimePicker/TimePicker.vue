@@ -53,15 +53,18 @@
                                 :key="index"
                                 v-show="index === 0 ? true : shouldShowRangedInput"
                                 v-bind="
-                                    Object.assign($props, {
-                                        order: index,
-                                        hours: tInput.hours,
-                                        minutes: tInput.minutes,
-                                        seconds: tInput.seconds,
-                                        closeTimePickerBtn,
-                                        disabledTimesConfig,
-                                        disabled: index === 0 ? fixedStart : fixedEnd,
-                                    })
+                                    Object.assign(
+                                        {
+                                            order: index,
+                                            hours: tInput.hours,
+                                            minutes: tInput.minutes,
+                                            seconds: tInput.seconds,
+                                            closeTimePickerBtn,
+                                            disabledTimesConfig,
+                                            disabled: index === 0 ? fixedStart : fixedEnd,
+                                        },
+                                        $props,
+                                    )
                                 "
                                 :validate-time="
                                     (type: TimeType, value: number) => validateTime(type, getEvent(value, index, type))
