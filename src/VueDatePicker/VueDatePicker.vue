@@ -451,7 +451,7 @@
     };
 
     const parseModel = (value?: ModelValue) => {
-        parseExternalModelValue(value ?? props.modelValue);
+        parseExternalModelValue(value == null ? props.modelValue : value);
     };
 
     const switchView = (view: MenuView, instance?: number) => {

@@ -54,7 +54,7 @@ export const useExternalInternalMapper = (emit: VueEmit, props: AllPropsType, is
             props.formatLocale,
             defaultedTextInput.value.rangeSeparator,
             props.modelAuto,
-            customPattern ?? getDefaultPattern(),
+            customPattern == null ? getDefaultPattern() : customPattern,
             parser,
         );
     };

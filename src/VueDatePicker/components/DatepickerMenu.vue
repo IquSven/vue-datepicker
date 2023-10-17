@@ -173,12 +173,16 @@
 
     const baseProps = computed(() => {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const { openOnTop, ...initProps } = props;
-        return {
-            ...initProps,
+        const initProps = <any>{};
+        for (const [k, v] of Object.entries(props)) {
+            if (k != 'openOnTop') {
+                initProps[k] = v;
+            }
+        }
+        return Object.assign(initProps, {
             flowStep: flowStep.value,
             noOverlayFocus: props.noOverlayFocus,
-        };
+        });
     });
 
     const { setMenuFocused, setShiftKey, control } = useState();

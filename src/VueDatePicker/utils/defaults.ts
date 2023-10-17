@@ -12,51 +12,40 @@ import type {
     InlineProp,
     InlineOptions,
     Config,
-    HighlightProp,
-    Highlight,
-    HighlightFn,
 } from '@/interfaces';
-import { getDate } from '@/utils/date-utils';
 
-export const mergeDefaultTransitions = (conf: Partial<Transition>): Transition =>
-    Object.assign(
-        {
-            menuAppearTop: 'dp-menu-appear-top',
-            menuAppearBottom: 'dp-menu-appear-bottom',
-            open: 'dp-slide-down',
-            close: 'dp-slide-up',
-            next: 'calendar-next',
-            previous: 'calendar-prev',
-            vNext: 'dp-slide-up',
-            vPrevious: 'dp-slide-down',
-        },
-        conf ? conf : {},
-    );
+export const mergeDefaultTransitions = (conf: Partial<Transition>): Transition => (Object.assign((conf ?conf: {}),{
+    menuAppearTop: 'dp-menu-appear-top',
+    menuAppearBottom: 'dp-menu-appear-bottom',
+    open: 'dp-slide-down',
+    close: 'dp-slide-up',
+    next: 'calendar-next',
+    previous: 'calendar-prev',
+    vNext: 'dp-slide-up',
+    vPrevious: 'dp-slide-down',
+}));
 
 export const defaultAriaLabels = (labels: Partial<AriaLabels>): AriaLabels => {
-    return Object.assign(
-        {
-            toggleOverlay: 'Toggle overlay',
-            menu: 'Datepicker menu',
-            input: 'Datepicker input',
-            calendarWrap: 'Calendar wrapper',
-            calendarDays: 'Calendar days',
-            openTimePicker: 'Open time picker',
-            closeTimePicker: 'Close time Picker',
-            incrementValue: (type: string) => `Increment ${type}`,
-            decrementValue: (type: string) => `Decrement ${type}`,
-            openTpOverlay: (type: string) => `Open ${type} overlay`,
-            amPmButton: 'Switch AM/PM mode',
-            openYearsOverlay: 'Open years overlay',
-            openMonthsOverlay: 'Open months overlay',
-            nextMonth: 'Next month',
-            prevMonth: 'Previous month',
-            nextYear: 'Next year',
-            prevYear: 'Previous year',
-            day: () => '',
-        },
-        labels ? labels : {},
-    );
+    return Object.assign((labels ?labels: {}),{
+        toggleOverlay: 'Toggle overlay',
+        menu: 'Datepicker menu',
+        input: 'Datepicker input',
+        calendarWrap: 'Calendar wrapper',
+        calendarDays: 'Calendar days',
+        openTimePicker: 'Open time picker',
+        closeTimePicker: 'Close time Picker',
+        incrementValue: (type: string) => `Increment ${type}`,
+        decrementValue: (type: string) => `Decrement ${type}`,
+        openTpOverlay: (type: string) => `Open ${type} overlay`,
+        amPmButton: 'Switch AM/PM mode',
+        openYearsOverlay: 'Open years overlay',
+        openMonthsOverlay: 'Open months overlay',
+        nextMonth: 'Next month',
+        prevMonth: 'Previous month',
+        nextYear: 'Next year',
+        prevYear: 'Previous year',
+        day: () => '',
+    });
 };
 
 const getMultiCalendarsCount = (option?: OptionEnabled) => {
@@ -71,9 +60,9 @@ export const defaultMultiCalendars = (multiCalendars?: MultiCalendarsProp): Mult
         static: true,
         solo: false,
     };
-    if (!multiCalendars) return Object.assign(defaultOptions, { count: getMultiCalendarsCount(false) });
+    if (!multiCalendars) return Object.assign(defaultOptions,{  count: getMultiCalendarsCount(false) });
     const addOptions = isConfig ? multiCalendars : ({} as MultiCalendarsOptions);
-    const option = isConfig ? addOptions.count ?? true : multiCalendars;
+    const option = isConfig ? addOptions.count ?addOptions.count: true : multiCalendars;
     const count = getMultiCalendarsCount(option);
 
     return Object.assign(defaultOptions, addOptions, { count });
@@ -110,46 +99,35 @@ export const getDefaultTextInputOptions = (textInput: TextInputProp): TextInputO
     };
 
     if (typeof textInput === 'object') {
-        return Object.assign(defaultOptions, textInput ? textInput : {}, { enabled: true });
+        return Object.assign(defaultOptions, (textInput ?textInput: {}), {enabled: true });
     }
-    return Object.assign(defaultOptions, { enabled: textInput });
+    return Object.assign(defaultOptions,{ enabled: textInput });
 };
 
 /**
  * Default filters to merge with user provided values
  */
-export const getDefaultFilters = (filters: Partial<DateFilter>): DateFilter =>
-    Object.assign(
-        {
-            months: [],
-            years: [],
-            times: { hours: [], minutes: [], seconds: [] },
-        },
-        filters ? filters : {},
-    );
+export const getDefaultFilters = (filters: Partial<DateFilter>): DateFilter => (Object.assign((filters ?filters: {}),{
+    months: [],
+    years: [],
+    times: { hours: [], minutes: [], seconds: [] },
+}));
 
-export const getDefaultActionRowData = (actionRow: Partial<ActionRowData>): ActionRowData =>
-    Object.assign(
-        {
-            showSelect: true,
-            showCancel: true,
-            showNow: false,
-            showPreview: true,
-        },
-        actionRow ? actionRow : {},
-    );
+export const getDefaultActionRowData = (actionRow: Partial<ActionRowData>): ActionRowData => (Object.assign((actionRow ?actionRow: {}),{
+    showSelect: true,
+    showCancel: true,
+    showNow: false,
+    showPreview: true,
+}));
 
 export const getDefaultInlineOptions = (inline: InlineProp): InlineOptions => {
     const defaultOptions = { input: false };
     if (typeof inline === 'object') {
-        return Object.assign(defaultOptions, inline ? inline : {}, { enabled: true });
+        return Object.assign(defaultOptions,(inline ?inline: {}),{ enabled: true });
     }
-    return Object.assign(
-        {
-            enabled: inline,
-        },
-        defaultOptions,
-    );
+    return Object.assign(defaultOptions,{
+        enabled: inline,
+    });
 };
 
 export const getDefaultConfig = (config?: Partial<Config>): Config => {
@@ -164,24 +142,5 @@ export const getDefaultConfig = (config?: Partial<Config>): Config => {
         keepActionRow: false,
         onClickOutside: undefined,
     };
-    return Object.assign(defaultConfig, config ? config : {});
-};
-
-export const getDefaultHighlight = (
-    highlight: HighlightProp,
-    highlightWeekDays: number[],
-    highlightDisabledDays: boolean,
-): Highlight | HighlightFn => {
-    const defaultOptions = {
-        dates: Array.isArray(highlight) ? highlight.map((date) => getDate(date)) : [],
-        years: [],
-        months: [],
-        quarters: [],
-        weeks: [],
-        weekdays: highlightWeekDays,
-        options: { highlightDisabled: highlightDisabledDays },
-    };
-
-    if (typeof highlight === 'function') return highlight;
-    return Object.assign(defaultOptions, highlight ? highlight : {});
+    return Object.assign(defaultConfig, (config ?config: {}));
 };
