@@ -328,7 +328,7 @@ function Dr(e) {
     return !0;
   try {
     return new Intl.DateTimeFormat(void 0, { timeZone: e }), aa[e] = !0, !0;
-  } catch {
+  } catch(e) {
     return !1;
   }
 }
@@ -560,7 +560,7 @@ const Er = (e, n, a) => {
   if (e !== null)
     try {
       r = t.map(Br(e));
-    } catch {
+    } catch(e) {
       r = t.map(ia(n));
     }
   else
@@ -587,7 +587,7 @@ const Er = (e, n, a) => {
           value: p
         };
       });
-    } catch {
+    } catch(e) {
     }
   const r = new Intl.DateTimeFormat(n, { month: a, timeZone: "UTC" });
   return t.map((l, d) => {
