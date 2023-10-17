@@ -44,7 +44,7 @@
             @tooltip-close="$emit('tooltip-close', $event)"
         >
             <template v-for="(slot, j) in calendarSlots" #[slot]="args" :key="j">
-                <slot :name="slot" v-bind="{ ...args }" />
+                <slot :name="slot" v-bind="Object.assign({}, args)" />
             </template>
         </DpCalendar>
     </InstanceWrap>
@@ -117,9 +117,7 @@
         'date-update',
         'invalid-date',
     ]);
-    const props = defineProps({
-        ...PickerBaseProps,
-    });
+    const props = defineProps(Object.assign({}, PickerBaseProps));
 
     const {
         calendars,
@@ -176,14 +174,13 @@
      */
     const mappedDates = computed(() => (instance: number) => {
         return getCalendarDays(month.value(instance), year.value(instance)).map((date) => {
-            return {
-                ...date,
+            return Object.assign(date, {
                 days: date.days.map((calendarDay) => {
                     calendarDay.marker = getMarker(calendarDay);
                     calendarDay.classData = getDayClassData(calendarDay);
                     return calendarDay;
                 }),
-            };
+            });
         });
     });
 

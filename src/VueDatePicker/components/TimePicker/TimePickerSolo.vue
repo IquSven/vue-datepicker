@@ -31,9 +31,7 @@
     import InstanceWrap from '@/components/Common/InstanceWrap.vue';
 
     const emit = defineEmits(['update:internal-model-value', 'time-update', 'am-pm-change']);
-    const props = defineProps({
-        ...PickerBaseProps,
-    });
+    const props = defineProps(Object.assign({}, PickerBaseProps));
     defineOptions({
         compatConfig: {
             MODE: 3,

@@ -45,7 +45,7 @@ export const useTimePicker = (props: PickerBasePropsType, emit: VueEmit) => {
         if (Array.isArray(dates)) {
             return [getTimeObj(getDate(dates[0])), getTimeObj(getDate(dates[1]))];
         }
-        return [getTimeObj(dates ?? getDate())];
+        return [getTimeObj(dates == null ? getDate() : dates)];
     };
 
     const assignTime = (hours: number | number[], minutes: number | number[], seconds: number | number[]) => {

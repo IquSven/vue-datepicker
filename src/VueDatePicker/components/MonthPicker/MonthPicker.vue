@@ -72,9 +72,7 @@
     const slots = useSlots();
     const yearModeSlots = mapSlots(slots, 'yearMode');
 
-    const props = defineProps({
-        ...PickerBaseProps,
-    });
+    const props = defineProps(Object.assign({}, PickerBaseProps));
 
     defineOptions({
         compatConfig: {

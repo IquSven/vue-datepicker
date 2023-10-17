@@ -150,8 +150,8 @@
         const defaultTime = getDefaultStartTime();
         return parseFreeInput(
             value,
-            defaultedTextInput.value.format ?? getDefaultPattern(),
-            defaultTime ?? assignDefaultTime({}, props.enableSeconds),
+            defaultedTextInput.value.format == null ? getDefaultPattern() : defaultedTextInput.value.format,
+            defaultTime == null ? assignDefaultTime({}, props.enableSeconds) : defaultTime,
             props.inputValue,
             textPasted.value,
         );

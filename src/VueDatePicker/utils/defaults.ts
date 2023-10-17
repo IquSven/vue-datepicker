@@ -18,40 +18,45 @@ import type {
 } from '@/interfaces';
 import { getDate } from '@/utils/date-utils';
 
-export const mergeDefaultTransitions = (conf: Partial<Transition>): Transition => ({
-    menuAppearTop: 'dp-menu-appear-top',
-    menuAppearBottom: 'dp-menu-appear-bottom',
-    open: 'dp-slide-down',
-    close: 'dp-slide-up',
-    next: 'calendar-next',
-    previous: 'calendar-prev',
-    vNext: 'dp-slide-up',
-    vPrevious: 'dp-slide-down',
-    ...(conf ?? {}),
-});
+export const mergeDefaultTransitions = (conf: Partial<Transition>): Transition =>
+    Object.assign(
+        {
+            menuAppearTop: 'dp-menu-appear-top',
+            menuAppearBottom: 'dp-menu-appear-bottom',
+            open: 'dp-slide-down',
+            close: 'dp-slide-up',
+            next: 'calendar-next',
+            previous: 'calendar-prev',
+            vNext: 'dp-slide-up',
+            vPrevious: 'dp-slide-down',
+        },
+        conf == null ? {} : conf,
+    );
 
 export const defaultAriaLabels = (labels: Partial<AriaLabels>): AriaLabels => {
-    return {
-        toggleOverlay: 'Toggle overlay',
-        menu: 'Datepicker menu',
-        input: 'Datepicker input',
-        calendarWrap: 'Calendar wrapper',
-        calendarDays: 'Calendar days',
-        openTimePicker: 'Open time picker',
-        closeTimePicker: 'Close time Picker',
-        incrementValue: (type: string) => `Increment ${type}`,
-        decrementValue: (type: string) => `Decrement ${type}`,
-        openTpOverlay: (type: string) => `Open ${type} overlay`,
-        amPmButton: 'Switch AM/PM mode',
-        openYearsOverlay: 'Open years overlay',
-        openMonthsOverlay: 'Open months overlay',
-        nextMonth: 'Next month',
-        prevMonth: 'Previous month',
-        nextYear: 'Next year',
-        prevYear: 'Previous year',
-        day: () => '',
-        ...(labels ?? {}),
-    };
+    return Object.assign(
+        {
+            toggleOverlay: 'Toggle overlay',
+            menu: 'Datepicker menu',
+            input: 'Datepicker input',
+            calendarWrap: 'Calendar wrapper',
+            calendarDays: 'Calendar days',
+            openTimePicker: 'Open time picker',
+            closeTimePicker: 'Close time Picker',
+            incrementValue: (type: string) => `Increment ${type}`,
+            decrementValue: (type: string) => `Decrement ${type}`,
+            openTpOverlay: (type: string) => `Open ${type} overlay`,
+            amPmButton: 'Switch AM/PM mode',
+            openYearsOverlay: 'Open years overlay',
+            openMonthsOverlay: 'Open months overlay',
+            nextMonth: 'Next month',
+            prevMonth: 'Previous month',
+            nextYear: 'Next year',
+            prevYear: 'Previous year',
+            day: () => '',
+        },
+        labels == null ? {} : labels,
+    );
 };
 
 const getMultiCalendarsCount = (option?: OptionEnabled) => {
@@ -66,9 +71,9 @@ export const defaultMultiCalendars = (multiCalendars?: MultiCalendarsProp): Mult
         static: true,
         solo: false,
     };
-    if (!multiCalendars) return { ...defaultOptions, count: getMultiCalendarsCount(false) };
+    if (!multiCalendars) return Object.assign(defaultOptions, { count: getMultiCalendarsCount(false) });
     const addOptions = isConfig ? multiCalendars : ({} as MultiCalendarsOptions);
-    const option = isConfig ? addOptions.count ?? true : multiCalendars;
+    const option = isConfig ? (addOptions.count == null ? true : addOptions.count) : multiCalendars;
     const count = getMultiCalendarsCount(option);
 
     return Object.assign(defaultOptions, addOptions, { count });
@@ -105,38 +110,46 @@ export const getDefaultTextInputOptions = (textInput: TextInputProp): TextInputO
     };
 
     if (typeof textInput === 'object') {
-        return { ...defaultOptions, ...(textInput ?? {}), enabled: true };
+        return Object.assign(defaultOptions, textInput == null ? {} : textInput, { enabled: true });
     }
-    return { ...defaultOptions, enabled: textInput };
+    return Object.assign(defaultOptions, { enabled: textInput });
 };
 
 /**
  * Default filters to merge with user provided values
  */
-export const getDefaultFilters = (filters: Partial<DateFilter>): DateFilter => ({
-    months: [],
-    years: [],
-    times: { hours: [], minutes: [], seconds: [] },
-    ...(filters ?? {}),
-});
+export const getDefaultFilters = (filters: Partial<DateFilter>): DateFilter =>
+    Object.assign(
+        {
+            months: [],
+            years: [],
+            times: { hours: [], minutes: [], seconds: [] },
+        },
+        filters == null ? {} : filters,
+    );
 
-export const getDefaultActionRowData = (actionRow: Partial<ActionRowData>): ActionRowData => ({
-    showSelect: true,
-    showCancel: true,
-    showNow: false,
-    showPreview: true,
-    ...(actionRow ?? {}),
-});
+export const getDefaultActionRowData = (actionRow: Partial<ActionRowData>): ActionRowData =>
+    Object.assign(
+        {
+            showSelect: true,
+            showCancel: true,
+            showNow: false,
+            showPreview: true,
+        },
+        actionRow == null ? {} : actionRow,
+    );
 
 export const getDefaultInlineOptions = (inline: InlineProp): InlineOptions => {
     const defaultOptions = { input: false };
     if (typeof inline === 'object') {
-        return { ...defaultOptions, ...(inline ?? {}), enabled: true };
+        return Object.assign(defaultOptions, inline == null ? {} : inline, { enabled: true });
     }
-    return {
-        enabled: inline,
-        ...defaultOptions,
-    };
+    return Object.assign(
+        {
+            enabled: inline,
+        },
+        defaultOptions,
+    );
 };
 
 export const getDefaultConfig = (config?: Partial<Config>): Config => {
@@ -151,7 +164,7 @@ export const getDefaultConfig = (config?: Partial<Config>): Config => {
         keepActionRow: false,
         onClickOutside: undefined,
     };
-    return { ...defaultConfig, ...(config ?? {}) };
+    return Object.assign(defaultConfig, config == null ? {} : config);
 };
 
 export const getDefaultHighlight = (
@@ -170,5 +183,5 @@ export const getDefaultHighlight = (
     };
 
     if (typeof highlight === 'function') return highlight;
-    return { ...defaultOptions, ...(highlight ?? {}) };
+    return Object.assign(defaultOptions, highlight == null ? {} : highlight);
 };

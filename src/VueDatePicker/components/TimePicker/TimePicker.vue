@@ -52,16 +52,17 @@
                                 v-for="(tInput, index) in timeInputs"
                                 :key="index"
                                 v-show="index === 0 ? true : shouldShowRangedInput"
-                                v-bind="{
-                                    ...$props,
-                                    order: index,
-                                    hours: tInput.hours,
-                                    minutes: tInput.minutes,
-                                    seconds: tInput.seconds,
-                                    closeTimePickerBtn,
-                                    disabledTimesConfig,
-                                    disabled: index === 0 ? fixedStart : fixedEnd,
-                                }"
+                                v-bind="
+                                    Object.assign($props, {
+                                        order: index,
+                                        hours: tInput.hours,
+                                        minutes: tInput.minutes,
+                                        seconds: tInput.seconds,
+                                        closeTimePickerBtn,
+                                        disabledTimesConfig,
+                                        disabled: index === 0 ? fixedStart : fixedEnd,
+                                    })
+                                "
                                 :validate-time="
                                     (type: TimeType, value: number) => validateTime(type, getEvent(value, index, type))
                                 "
@@ -130,17 +131,21 @@
         'am-pm-change',
     ]);
 
-    const props = defineProps({
-        hours: { type: [Number, Array] as PropType<number | number[]>, default: 0 },
-        minutes: { type: [Number, Array] as PropType<number | number[]>, default: 0 },
-        seconds: { type: [Number, Array] as PropType<number | number[]>, default: 0 },
-        disabledTimesConfig: { type: Function as PropType<DisabledTimesArrProp>, default: null },
-        validateTime: {
-            type: Function as PropType<(type: TimeType, value: number | number[]) => boolean>,
-            default: () => false,
-        },
-        ...PickerBaseProps,
-    });
+    const props = defineProps(
+        Object.assign(
+            {
+                hours: { type: [Number, Array] as PropType<number | number[]>, default: 0 },
+                minutes: { type: [Number, Array] as PropType<number | number[]>, default: 0 },
+                seconds: { type: [Number, Array] as PropType<number | number[]>, default: 0 },
+                disabledTimesConfig: { type: Function as PropType<DisabledTimesArrProp>, default: null },
+                validateTime: {
+                    type: Function as PropType<(type: TimeType, value: number | number[]) => boolean>,
+                    default: () => false,
+                },
+            },
+            PickerBaseProps,
+        ),
+    );
 
     const { buildMatrix, setTimePicker } = useArrowNavigation();
     const slots = useSlots();

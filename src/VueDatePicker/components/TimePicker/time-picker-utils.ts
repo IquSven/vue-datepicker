@@ -151,10 +151,12 @@ export const useTimePickerUtils = (
 
             const timeFound = disabledArr.filter((time) => +time.hours === hours);
             if (timeFound[0]?.minutes === '*') return { hours: [hours], minutes: undefined, seconds: undefined };
+            const minutes = timeFound?.map((t) => +t.minutes);
+            const seconds = timeFound?.map((t) => (t.seconds ? +t.seconds : undefined));
             return {
                 hours: [],
-                minutes: timeFound?.map((t) => +t.minutes) ?? [],
-                seconds: timeFound?.map((t) => (t.seconds ? +t.seconds : undefined)) ?? [],
+                minutes: minutes == null ? [] : minutes,
+                seconds: seconds == null ? [] : seconds,
             };
         }
         return { hours: [], minutes: [], seconds: [] };

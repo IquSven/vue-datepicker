@@ -97,7 +97,7 @@ export const usePosition = ({
     const customAltPosition = () => {
         const el = unrefElement(inputRef);
         const { top, left, transform } = props.altPosition(el);
-        menuStyle.value = { top: `${top}px`, left: `${left}px`, transform: transform ?? '' };
+        menuStyle.value = { top: `${top}px`, left: `${left}px`, transform: transform == null ? '' : transform };
     };
 
     /**
@@ -255,11 +255,13 @@ export const usePosition = ({
 
         const el = h(
             DPMenu,
-            {
-                ...props,
-                shadow: true,
-                style: { opacity: 0, position: 'absolute', ...pos },
-            },
+            Object.assign(
+                {
+                    shadow: true,
+                    style: Object.assign({ opacity: 0, position: 'absolute' }, pos),
+                },
+                props,
+            ),
             Object.fromEntries(
                 Object.keys(slots)
                     .filter((slot) => ['right-sidebar', 'left-sidebar'].includes(slot))

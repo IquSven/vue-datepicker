@@ -158,13 +158,17 @@
         'tooltip-close',
     ]);
 
-    const props = defineProps({
-        mappedDates: { type: Array as PropType<ICalendarDate[]>, default: () => [] },
-        instance: { type: Number as PropType<number>, default: 0 },
-        month: { type: Number as PropType<number>, default: 0 },
-        year: { type: Number as PropType<number>, default: 0 },
-        ...PickerBaseProps,
-    });
+    const props = defineProps(
+        Object.assign(
+            {
+                mappedDates: { type: Array as PropType<ICalendarDate[]>, default: () => [] },
+                instance: { type: Number as PropType<number>, default: 0 },
+                month: { type: Number as PropType<number>, default: 0 },
+                year: { type: Number as PropType<number>, default: 0 },
+            },
+            PickerBaseProps,
+        ),
+    );
 
     const { buildMultiLevelMatrix } = useArrowNavigation();
     const { defaultedTransitions, defaultedConfig, defaultedAriaLabels, defaultedMultiCalendars } = useDefaults(props);
@@ -277,11 +281,13 @@
                     }
                 }
 
-                markerTooltipStyle.value = {
-                    bottom: `${height}px`,
-                    ...defaultPosition,
-                    transform: `translateX(${transform}%)`,
-                };
+                markerTooltipStyle.value = Object.assign(
+                    {
+                        bottom: `${height}px`,
+                        transform: `translateX(${transform}%)`,
+                    },
+                    defaultPosition,
+                );
 
                 emit('tooltip-open', day.marker);
             }
