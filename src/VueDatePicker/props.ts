@@ -167,14 +167,13 @@ export const AllProps = {
     yearFirst: { type: Boolean as PropType<boolean>, default: false },
 };
 
-export const PickerBaseProps = {
-    ...AllProps,
+export const PickerBaseProps = Object.assign(AllProps, {
     shadow: { type: Boolean as PropType<boolean>, default: false },
     flowStep: { type: Number as PropType<number>, default: 0 },
     internalModelValue: { type: [Date, Array] as PropType<InternalModuleValue>, default: null },
     arrMapValues: { type: Object as PropType<ArrMapValues>, default: () => ({}) },
     noOverlayFocus: { type: Boolean as PropType<boolean>, default: false },
-};
+});
 
 export type AllPropsType = ExtractPropTypes<typeof AllProps>;
 export type PickerBasePropsType = ExtractPropTypes<typeof PickerBaseProps>;

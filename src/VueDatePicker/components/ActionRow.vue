@@ -80,11 +80,15 @@
 
     const emit = defineEmits(['close-picker', 'select-date', 'select-now', 'invalid-select']);
 
-    const props = defineProps({
-        menuMount: { type: Boolean as PropType<boolean>, default: false },
-        calendarWidth: { type: Number as PropType<number>, default: 0 },
-        ...PickerBaseProps,
-    });
+    const props = defineProps(
+        Object.assign(
+            {
+                menuMount: { type: Boolean as PropType<boolean>, default: false },
+                calendarWidth: { type: Number as PropType<number>, default: 0 },
+            },
+            PickerBaseProps,
+        ),
+    );
 
     const {
         defaultedActionRow,

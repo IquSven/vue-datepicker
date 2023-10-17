@@ -99,11 +99,15 @@
         'real-blur',
     ]);
 
-    const props = defineProps({
-        isMenuOpen: { type: Boolean as PropType<boolean>, default: false },
-        inputValue: { type: String as PropType<string>, default: '' },
-        ...AllProps,
-    });
+    const props = defineProps(
+        Object.assign(
+            {
+                isMenuOpen: { type: Boolean as PropType<boolean>, default: false },
+                inputValue: { type: String as PropType<string>, default: '' },
+            },
+            AllProps,
+        ),
+    );
 
     const {
         defaultedTextInput,

@@ -79,7 +79,7 @@
                     @update:internal-model-value="$emit('update:internal-model-value', $event)"
                 >
                     <template v-for="(slot, i) in sharedSlots" #[slot]="args" :key="i">
-                        <slot :name="slot" v-bind="{ ...args }" />
+                        <slot :name="slot" v-bind="Object.assign({}, args)" />
                     </template>
                 </component>
             </div>
@@ -101,7 +101,7 @@
             @select-now="selectCurrentDate"
         >
             <template v-for="(slot, i) in actionSlots" #[slot]="args" :key="i">
-                <slot :name="slot" v-bind="{ ...args }" />
+                <slot :name="slot" v-bind="Object.assign({}, args)" />
             </template>
         </ActionRow>
     </div>
@@ -161,14 +161,15 @@
         'invalid-date',
     ]);
 
-    const props = defineProps({
-        ...AllProps,
-        shadow: { type: Boolean as PropType<boolean>, default: false },
-        openOnTop: { type: Boolean as PropType<boolean>, default: false },
-        internalModelValue: { type: [Date, Array] as PropType<InternalModuleValue>, default: null },
-        arrMapValues: { type: Object as PropType<ArrMapValues>, default: () => ({}) },
-        noOverlayFocus: { type: Boolean as PropType<boolean>, default: false },
-    });
+    const props = defineProps(
+        Object.assign(AllProps, {
+            shadow: { type: Boolean as PropType<boolean>, default: false },
+            openOnTop: { type: Boolean as PropType<boolean>, default: false },
+            internalModelValue: { type: [Date, Array] as PropType<InternalModuleValue>, default: null },
+            arrMapValues: { type: Object as PropType<ArrMapValues>, default: () => ({}) },
+            noOverlayFocus: { type: Boolean as PropType<boolean>, default: false },
+        }),
+    );
 
     const baseProps = computed(() => {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars

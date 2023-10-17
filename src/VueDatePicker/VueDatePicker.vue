@@ -59,7 +59,7 @@
                     @invalid-date="$emit('invalid-date', $event)"
                 >
                     <template v-for="(slot, i) in slotList" #[slot]="args" :key="i">
-                        <slot :name="slot" v-bind="{ ...args }" />
+                        <slot :name="slot" v-bind="Object.assign({}, args)" />
                     </template>
                 </DatepickerMenu>
             </component>
@@ -138,9 +138,7 @@
         },
     });
 
-    const props = defineProps({
-        ...AllProps,
-    });
+    const props = defineProps(Object.assign({}, AllProps));
     const slots = useSlots();
     const isOpen = ref(false);
     const modelValueRef = toRef(props, 'modelValue');
