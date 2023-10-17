@@ -207,19 +207,22 @@ export const groupListAndMap = (
     return getGroupedList(list).map((items) => {
         return items.map((item) => {
             const { active, disabled, isBetween, highlighted } = cb(item);
-            return Object.assign(item, {
-                active,
-                disabled: disabled,
-                className: {
-                    dp__overlay_cell_active: active,
-                    dp__overlay_cell: !active,
-                    dp__overlay_cell_disabled: disabled,
-                    dp__overlay_cell_pad: true,
-                    dp__overlay_cell_active_disabled: disabled && active,
-                    dp__cell_in_between: isBetween,
-                    'dp--highlighted': highlighted,
+            return Object.assign(
+                {
+                    active,
+                    disabled: disabled,
+                    className: {
+                        dp__overlay_cell_active: active,
+                        dp__overlay_cell: !active,
+                        dp__overlay_cell_disabled: disabled,
+                        dp__overlay_cell_pad: true,
+                        dp__overlay_cell_active_disabled: disabled && active,
+                        dp__cell_in_between: isBetween,
+                        'dp--highlighted': highlighted,
+                    },
                 },
-            });
+                item,
+            );
         });
     });
 };

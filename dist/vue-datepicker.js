@@ -614,26 +614,29 @@ const Er = (e, n, a) => {
   }
   return n;
 }, Nt = (e, n, a) => {
-  const t = a ?? a === 0, r = n ?? n === 0;
+  const t = a ? a === 0:a, r = n ? n === 0:n;
   if (!t && !r)
     return !1;
   const l = +a, d = +n;
   return t && r ? +e > l || +e < d : t ? +e > l : r ? +e < d : !1;
 }, Dt = (e, n) => Vr(e).map((a) => a.map((t) => {
   const { active: r, disabled: l, isBetween: d, highlighted: p } = n(t);
-  return Object.assign(t, {
-    active: r,
-    disabled: l,
-    className: {
-      dp__overlay_cell_active: r,
-      dp__overlay_cell: !r,
-      dp__overlay_cell_disabled: l,
-      dp__overlay_cell_pad: !0,
-      dp__overlay_cell_active_disabled: l && r,
-      dp__cell_in_between: d,
-      "dp--highlighted": p
-    }
-  });
+  return Object.assign(
+    {
+      active: r,
+      disabled: l,
+      className: {
+        dp__overlay_cell_active: r,
+        dp__overlay_cell: !r,
+        dp__overlay_cell_disabled: l,
+        dp__overlay_cell_pad: !0,
+        dp__overlay_cell_active_disabled: l && r,
+        dp__cell_in_between: d,
+        "dp--highlighted": p
+      }
+    },
+    t
+  );
 })), lt = (e, n, a = !1) => {
   e && n.allowStopPropagation && (a && e.stopImmediatePropagation(), e.stopPropagation());
 }, ca = (e, n, a, t, r) => {
@@ -853,7 +856,7 @@ const Er = (e, n, a) => {
     vNext: "dp-slide-up",
     vPrevious: "dp-slide-down"
   },
-  e ?? {}
+  e ? {} : e
 ), Zr = (e) => Object.assign(
   {
     toggleOverlay: "Toggle overlay",
@@ -875,7 +878,7 @@ const Er = (e, n, a) => {
     prevYear: "Previous year",
     day: () => ""
   },
-  e ?? {}
+  e ? {} : e
 ), ga = (e) => e ? typeof e == "boolean" ? e ? 2 : 0 : +e >= 2 ? +e : 2 : 0, Qr = (e) => {
   const n = typeof e == "object" && e, a = {
     static: !0,
@@ -893,14 +896,14 @@ const Er = (e, n, a) => {
     selectOnFocus: !1,
     rangeSeparator: " - "
   };
-  return typeof e == "object" ? Object.assign(n, e ?? {}, { enabled: !0 }) : Object.assign(n, { enabled: e });
+  return typeof e == "object" ? Object.assign(n, e ? {} : e, { enabled: !0 }) : Object.assign(n, { enabled: e });
 }, el = (e) => Object.assign(
   {
     months: [],
     years: [],
     times: { hours: [], minutes: [], seconds: [] }
   },
-  e ?? {}
+  e ? {} : e
 ), tl = (e) => Object.assign(
   {
     showSelect: !0,
@@ -908,10 +911,10 @@ const Er = (e, n, a) => {
     showNow: !1,
     showPreview: !0
   },
-  e ?? {}
+  e ? {} : e
 ), nl = (e) => {
   const n = { input: !1 };
-  return typeof e == "object" ? Object.assign(n, e ?? {}, { enabled: !0 }) : Object.assign(
+  return typeof e == "object" ? Object.assign(n, e ? {} : e, { enabled: !0 }) : Object.assign(
     {
       enabled: e
     },
@@ -927,7 +930,7 @@ const Er = (e, n, a) => {
   noSwipe: !1,
   keepActionRow: !1,
   onClickOutside: void 0
-}, e ?? {}), rl = (e, n, a) => {
+}, e ? {} : e), rl = (e, n, a) => {
   const t = {
     dates: Array.isArray(e) ? e.map((r) => U(r)) : [],
     years: [],
@@ -937,7 +940,7 @@ const Er = (e, n, a) => {
     weekdays: n,
     options: { highlightDisabled: a }
   };
-  return typeof e == "function" ? e : Object.assign(t, e ?? {});
+  return typeof e == "function" ? e : Object.assign(t, e ? {} : e);
 }, $e = (e) => {
   const n = () => {
     const X = e.enableSeconds ? ":ss" : "";
@@ -975,7 +978,7 @@ const Er = (e, n, a) => {
     n.formatLocale,
     r.value.rangeSeparator,
     n.modelAuto,
-    Q ?? l(),
+    Q ? l() : Q,
     ae
   ), $ = (o) => o ? n.modelType ? w(o) : {
     hours: qe(o),
@@ -1694,7 +1697,7 @@ const sl = ({
       return Ur(
         f,
         r.value.format == null ? h() : r.value.format,
-        F ?? Ia({}, t.enableSeconds),
+        F ? Ia({}, t.enableSeconds) : F,
         t.inputValue,
         j.value
       );
@@ -3106,8 +3109,8 @@ const sl = ({
       const J = R == null ? void 0 : R.map((C) => +C.minutes), re = R == null ? void 0 : R.map((C) => C.seconds ? +C.seconds : void 0);
       return {
         hours: [],
-        minutes: J ?? [],
-        seconds: re ?? []
+        minutes: J ? [] : J,
+        seconds: re ? [] : re
       };
     }
     return { hours: [], minutes: [], seconds: [] };
@@ -3144,7 +3147,7 @@ const sl = ({
       a.value = [d(N, 0), d(k, 1)];
     } else
       a.value = d(I());
-  }, A = (N) => Array.isArray(N) ? [gt(U(N[0])), gt(U(N[1]))] : [gt(N ?? U())], G = (N, k, O) => {
+  }, A = (N) => Array.isArray(N) ? [gt(U(N[0])), gt(U(N[1]))] : [gt(N ? U() : N)], G = (N, k, O) => {
     p("hours", N), p("minutes", k), p("seconds", e.enableSeconds ? O : 0);
   }, X = () => {
     const [N, k] = A(a.value);
@@ -4678,7 +4681,7 @@ const sl = ({
         year: ua(i.year)
       });
     }, un = (i) => {
-      s(i ?? t.modelValue);
+      s(i ? t.modelValue : i);
     }, dn = (i, D) => {
       var V;
       (V = P.value) == null || V.switchView(i, D);
