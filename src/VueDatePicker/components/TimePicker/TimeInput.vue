@@ -168,16 +168,23 @@
         'overlay-closed',
         'am-pm-change',
     ]);
-    const props = defineProps({
-        hours: { type: Number as PropType<number>, default: 0 },
-        minutes: { type: Number as PropType<number>, default: 0 },
-        seconds: { type: Number as PropType<number>, default: 0 },
-        closeTimePickerBtn: { type: Object as PropType<HTMLElement | null>, default: null },
-        order: { type: Number as PropType<number>, default: 0 },
-        disabledTimesConfig: { type: Function as PropType<DisabledTimesArrProp>, default: null },
-        validateTime: { type: Function as PropType<(type: TimeType, value: number) => boolean>, default: () => false },
-        ...PickerBaseProps,
-    });
+    const props = defineProps(
+        Object.assign(
+            {
+                hours: { type: Number as PropType<number>, default: 0 },
+                minutes: { type: Number as PropType<number>, default: 0 },
+                seconds: { type: Number as PropType<number>, default: 0 },
+                closeTimePickerBtn: { type: Object as PropType<HTMLElement | null>, default: null },
+                order: { type: Number as PropType<number>, default: 0 },
+                disabledTimesConfig: { type: Function as PropType<DisabledTimesArrProp>, default: null },
+                validateTime: {
+                    type: Function as PropType<(type: TimeType, value: number) => boolean>,
+                    default: () => false,
+                },
+            },
+            PickerBaseProps,
+        ),
+    );
 
     const { setTimePickerElements, setTimePickerBackRef } = useArrowNavigation();
     const { defaultedAriaLabels, defaultedTransitions, defaultedFilters, defaultedConfig } = useDefaults(props);

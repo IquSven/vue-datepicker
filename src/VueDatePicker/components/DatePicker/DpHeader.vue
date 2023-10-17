@@ -131,14 +131,18 @@
     import type { HeaderSelectionBtn, IDefaultSelect, MaybeElementRef, OverlayGridItem } from '@/interfaces';
 
     const emit = defineEmits(['update-month-year', 'mount', 'reset-flow', 'overlay-closed']);
-    const props = defineProps({
-        month: { type: Number as PropType<number>, default: 0 },
-        year: { type: Number as PropType<number>, default: 0 },
-        instance: { type: Number as PropType<number>, default: 0 },
-        years: { type: Array as PropType<IDefaultSelect[]>, default: () => [] },
-        months: { type: Array as PropType<IDefaultSelect[]>, default: () => [] },
-        ...PickerBaseProps,
-    });
+    const props = defineProps(
+        Object.assign(
+            {
+                month: { type: Number as PropType<number>, default: 0 },
+                year: { type: Number as PropType<number>, default: 0 },
+                instance: { type: Number as PropType<number>, default: 0 },
+                years: { type: Array as PropType<IDefaultSelect[]>, default: () => [] },
+                months: { type: Array as PropType<IDefaultSelect[]>, default: () => [] },
+            },
+            PickerBaseProps,
+        ),
+    );
 
     defineOptions({
         compatConfig: {

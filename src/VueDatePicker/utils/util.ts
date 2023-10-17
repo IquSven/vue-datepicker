@@ -207,8 +207,7 @@ export const groupListAndMap = (
     return getGroupedList(list).map((items) => {
         return items.map((item) => {
             const { active, disabled, isBetween, highlighted } = cb(item);
-            return {
-                ...item,
+            return Object.assign(item, {
                 active,
                 disabled: disabled,
                 className: {
@@ -220,7 +219,7 @@ export const groupListAndMap = (
                     dp__cell_in_between: isBetween,
                     'dp--highlighted': highlighted,
                 },
-            };
+            });
         });
     });
 };

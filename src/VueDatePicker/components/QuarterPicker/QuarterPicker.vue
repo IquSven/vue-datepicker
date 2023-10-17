@@ -65,9 +65,7 @@
         'range-start',
         'range-end',
     ]);
-    const props = defineProps({
-        ...PickerBaseProps,
-    });
+    const props = defineProps(Object.assign({}, PickerBaseProps));
 
     const slots = useSlots();
     const yearModeSlots = mapSlots(slots, 'yearMode');

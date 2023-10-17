@@ -68,14 +68,15 @@
     import type { OverlayGridItem } from '@/interfaces';
 
     const emit = defineEmits(['toggle-year-picker', 'year-select', 'handle-year']);
-    const props = defineProps({
-        ...PickerBaseProps,
-        showYearPicker: { type: Boolean as PropType<boolean>, default: false },
-        items: { type: Array as PropType<OverlayGridItem[][]>, default: () => [] },
-        instance: { type: Number as PropType<number>, default: 0 },
-        year: { type: Number as PropType<number>, default: 0 },
-        isDisabled: { type: Function as PropType<(isNext: boolean) => boolean>, default: () => false },
-    });
+    const props = defineProps(
+        Object.assign(PickerBaseProps, {
+            showYearPicker: { type: Boolean as PropType<boolean>, default: false },
+            items: { type: Array as PropType<OverlayGridItem[][]>, default: () => [] },
+            instance: { type: Number as PropType<number>, default: 0 },
+            year: { type: Number as PropType<number>, default: 0 },
+            isDisabled: { type: Function as PropType<(isNext: boolean) => boolean>, default: () => false },
+        }),
+    );
 
     const { showRightIcon, showLeftIcon } = useCommon();
     const { defaultedConfig, defaultedMultiCalendars, defaultedAriaLabels, defaultedTransitions } = useDefaults(props);

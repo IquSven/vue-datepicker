@@ -37,9 +37,7 @@
     import { useDefaults } from '@/composables';
 
     const emit = defineEmits(['update:internal-model-value', 'reset-flow', 'range-start', 'range-end', 'auto-apply']);
-    const props = defineProps({
-        ...PickerBaseProps,
-    });
+    const props = defineProps(Object.assign({}, PickerBaseProps));
 
     defineOptions({
         compatConfig: {

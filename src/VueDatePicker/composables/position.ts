@@ -255,11 +255,10 @@ export const usePosition = ({
 
         const el = h(
             DPMenu,
-            {
-                ...props,
+            Object.assign(props, {
                 shadow: true,
-                style: { opacity: 0, position: 'absolute', ...pos },
-            },
+                style: Object.assign({ opacity: 0, position: 'absolute' }, pos),
+            }),
             Object.fromEntries(
                 Object.keys(slots)
                     .filter((slot) => ['right-sidebar', 'left-sidebar'].includes(slot))
